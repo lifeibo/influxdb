@@ -464,7 +464,6 @@ func (s *Shard) LoggedIsIdle() bool {
 	return engine.IsIdle(true)
 }
 
-
 func (s *Shard) Free() error {
 	engine, err := s.Engine()
 	if err != nil {

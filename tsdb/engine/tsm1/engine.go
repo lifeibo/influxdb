@@ -908,11 +908,11 @@ func (e *Engine) loggedIsIdle(isLogged bool) bool {
 	}
 
 	runningCompactions := logCheckForCompactions(log, &e.stats.CacheCompactionsActive, `e.stats.CacheCompactionsActive`)
-	runningCompactions += logCheckForCompactions(log, &e.stats.TSMCompactionsActive[0],`e.stats.TSMCompactionsActive[0]`)
-	runningCompactions += logCheckForCompactions(log, &e.stats.TSMCompactionsActive[1],`e.stats.TSMCompactionsActive[1]`)
-	runningCompactions += logCheckForCompactions(log, &e.stats.TSMCompactionsActive[2],`e.stats.TSMCompactionsActive[2]`)
-	runningCompactions += logCheckForCompactions(log, &e.stats.TSMFullCompactionsActive,`e.stats.TSMFullCompactionsActive`)
-	runningCompactions += logCheckForCompactions(log, &e.stats.TSMOptimizeCompactionsActive,`e.stats.TSMOptimizeCompactionsActive`)
+	runningCompactions += logCheckForCompactions(log, &e.stats.TSMCompactionsActive[0], `e.stats.TSMCompactionsActive[0]`)
+	runningCompactions += logCheckForCompactions(log, &e.stats.TSMCompactionsActive[1], `e.stats.TSMCompactionsActive[1]`)
+	runningCompactions += logCheckForCompactions(log, &e.stats.TSMCompactionsActive[2], `e.stats.TSMCompactionsActive[2]`)
+	runningCompactions += logCheckForCompactions(log, &e.stats.TSMFullCompactionsActive, `e.stats.TSMFullCompactionsActive`)
+	runningCompactions += logCheckForCompactions(log, &e.stats.TSMOptimizeCompactionsActive, `e.stats.TSMOptimizeCompactionsActive`)
 	fullyCompacted := e.CompactionPlan.FullyCompacted()
 	if !fullyCompacted && log != nil {
 		log.Info("IsIdle false because", zap.Bool("FullyCompacted", fullyCompacted))
