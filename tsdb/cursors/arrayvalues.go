@@ -3,15 +3,15 @@ package cursors
 // TwoFloatArray is too different to codegen easily
 type TwoFloatArray struct {
 	Timestamps []int64
-	Values0 []float64
-	Values1 []float64
+	Values0    []float64
+	Values1    []float64
 }
 
 func NewTwoFloatArrayLen(sz int) *TwoFloatArray {
 	return &TwoFloatArray{
 		Timestamps: make([]int64, sz),
-		Values0:     make([]float64, sz),
-		Values1:     make([]float64, sz),
+		Values0:    make([]float64, sz),
+		Values1:    make([]float64, sz),
 	}
 }
 

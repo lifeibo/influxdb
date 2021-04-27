@@ -3,11 +3,10 @@ package reads
 import (
 	"fmt"
 
-	"google.golang.org/grpc/metadata"
-
 	"github.com/influxdata/influxdb/models"
 	"github.com/influxdata/influxdb/storage/reads/datatypes"
 	"github.com/influxdata/influxdb/tsdb/cursors"
+	"google.golang.org/grpc/metadata"
 )
 
 type ResponseStream interface {
@@ -45,7 +44,7 @@ type ResponseWriter struct {
 		String   []*datatypes.ReadResponse_Frame_StringPoints
 		Series   []*datatypes.ReadResponse_Frame_Series
 		Group    []*datatypes.ReadResponse_Frame_Group
-		TwoFloat   []*datatypes.ReadResponse_Frame_TwoFloatPoints
+		TwoFloat []*datatypes.ReadResponse_Frame_TwoFloatPoints
 	}
 
 	hints datatypes.HintFlags

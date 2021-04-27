@@ -229,8 +229,8 @@ func (w *ResponseWriter) getTwoFloatPointsFrame() *datatypes.ReadResponse_Frame_
 		res = &datatypes.ReadResponse_Frame_TwoFloatPoints{
 			TwoFloatPoints: &datatypes.ReadResponse_TwoFloatPointsFrame{
 				Timestamps: make([]int64, 0, batchSize),
-				Values0: make([]float64, 0, batchSize),
-				Values1: make([]float64, 0, batchSize),
+				Values0:    make([]float64, 0, batchSize),
+				Values1:    make([]float64, 0, batchSize),
 			},
 		}
 	}
