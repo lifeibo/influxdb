@@ -39,6 +39,11 @@ type BooleanArrayCursor interface {
 	Next() *BooleanArray
 }
 
+type TwoFloatArrayCursor interface {
+	Cursor
+	Next() *TwoFloatArray
+}
+
 type CursorRequest struct {
 	Name      []byte
 	Tags      models.Tags

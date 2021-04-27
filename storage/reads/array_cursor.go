@@ -45,6 +45,8 @@ func NewWindowAggregateArrayCursor(ctx context.Context, agg *datatypes.Aggregate
 		return newWindowMaxArrayCursor(cursor, window), nil
 	case datatypes.AggregateTypeMean:
 		return newWindowMeanArrayCursor(cursor, window)
+	case datatypes.AggregateTypeMeanCount:
+		return newWindowMeanCountArrayCursor(cursor, window)
 	default:
 		// TODO(sgc): should be validated higher up
 		panic("invalid aggregate")

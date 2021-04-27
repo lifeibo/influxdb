@@ -217,6 +217,113 @@ func (w *ResponseWriter) streamIntegerArrayPoints(cur cursors.IntegerArrayCursor
 	}
 }
 
+func (w *ResponseWriter) getTwoFloatPointsFrame() *datatypes.ReadResponse_Frame_TwoFloatPoints {
+	var res *datatypes.ReadResponse_Frame_TwoFloatPoints
+	if len(w.buffer.TwoFloat) > 0 {
+		i := len(w.buffer.TwoFloat) - 1
+		res = w.buffer.TwoFloat[i]
+		w.buffer.TwoFloat[i] = nil
+		w.buffer.TwoFloat = w.buffer.TwoFloat[:i]
+	} else {
+		// Hack: assume 2 sub-arrays since we only use this for SumCount
+		res = &datatypes.ReadResponse_Frame_TwoFloatPoints{
+			TwoFloatPoints: &datatypes.ReadResponse_TwoFloatPointsFrame{
+				Timestamps: make([]int64, 0, batchSize),
+				Values0: make([]float64, 0, batchSize),
+				Values1: make([]float64, 0, batchSize),
+			},
+		}
+	}
+
+	return res
+}
+
+func (w *ResponseWriter) putTwoFloatPointsFrame(f *datatypes.ReadResponse_Frame_TwoFloatPoints) {
+	f.TwoFloatPoints.Timestamps = f.TwoFloatPoints.Timestamps[:0]
+	f.TwoFloatPoints.Values0 = f.TwoFloatPoints.Values0[:0]
+	f.TwoFloatPoints.Values1 = f.TwoFloatPoints.Values1[:0]
+	w.buffer.TwoFloat = append(w.buffer.TwoFloat, f)
+}
+
+func (w *ResponseWriter) streamTwoFloatArraySeries(cur cursors.TwoFloatArrayCursor) {
+	w.sf.DataType = datatypes.DataTypeTwoFloat
+	ss := len(w.res.Frames) - 1
+	a := cur.Next()
+	if len(a.Timestamps) == 0 {
+		w.sz -= w.sf.Size()
+		w.putSeriesFrame(w.res.Frames[ss].Data.(*datatypes.ReadResponse_Frame_Series))
+		w.res.Frames = w.res.Frames[:ss]
+	} else if w.sz > writeSize {
+		w.Flush()
+	}
+}
+
+func (w *ResponseWriter) streamTwoFloatArrayPoints(cur cursors.TwoFloatArrayCursor) {
+	w.sf.DataType = datatypes.DataTypeTwoFloat
+	ss := len(w.res.Frames) - 1
+
+	p := w.getTwoFloatPointsFrame()
+	frame := p.TwoFloatPoints
+	w.res.Frames = append(w.res.Frames, datatypes.ReadResponse_Frame{Data: p})
+
+	var seriesValueCount = 0
+	for {
+		// If the number of values produced by cur > 1000,
+		// cur.Next() will produce batches of values that are of
+		// length ≤ 1000.
+		// We attempt to limit the frame Timestamps / Values lengths
+		// the same to avoid allocations. These frames are recycled
+		// after flushing so that on repeated use there should be enough space
+		// to append values from a into frame without additional allocations.
+		a := cur.Next()
+
+		if len(a.Timestamps) == 0 {
+			break
+		}
+
+		seriesValueCount += a.Len()
+		// As specified in the struct definition, w.sz is an estimated
+		// size (in bytes) of the buffered data. It is therefore a
+		// deliberate choice to accumulate using the array Size, which is
+		// cheap to calculate. Calling frame.Size() can be expensive
+		// when using varint encoding for numbers.
+		w.sz += a.Size()
+
+		frame.Timestamps = append(frame.Timestamps, a.Timestamps...)
+		frame.Values0 = append(frame.Values0, a.Values0...)
+		frame.Values1 = append(frame.Values1, a.Values1...)
+
+		// given the expectation of cur.Next, we attempt to limit
+		// the number of values appended to the frame to batchSize (1000)
+		needsFrame := len(frame.Timestamps) >= batchSize
+
+		if w.sz >= writeSize {
+			needsFrame = true
+			w.Flush()
+			if w.err != nil {
+				break
+			}
+		}
+
+		if needsFrame {
+			// new frames are returned with Timestamps and Values preallocated
+			// to a minimum of batchSize length to reduce further allocations.
+			p = w.getTwoFloatPointsFrame()
+			frame = p.TwoFloatPoints
+			w.res.Frames = append(w.res.Frames, datatypes.ReadResponse_Frame{Data: p})
+		}
+	}
+
+	w.vc += seriesValueCount
+	if seriesValueCount == 0 {
+		w.sz -= w.sf.Size()
+		w.putSeriesFrame(w.res.Frames[ss].Data.(*datatypes.ReadResponse_Frame_Series))
+		w.res.Frames = w.res.Frames[:ss]
+	} else if w.sz > writeSize {
+		w.Flush()
+	}
+}
+
 func (w *ResponseWriter) getUnsignedPointsFrame() *datatypes.ReadResponse_Frame_UnsignedPoints {
 	var res *datatypes.ReadResponse_Frame_UnsignedPoints
 	if len(w.buffer.Unsigned) > 0 {

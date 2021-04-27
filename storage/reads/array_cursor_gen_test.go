@@ -124,6 +124,24 @@ func TestNewAggregateArrayCursor_Float(t *testing.T) {
 		}
 	})
 
+	t.Run("MeanCount", func(t *testing.T) {
+		want := &floatWindowMeanCountArrayCursor{
+			FloatArrayCursor: &MockFloatArrayCursor{},
+			res:              cursors.NewTwoFloatArrayLen(1),
+			tmp:              &cursors.FloatArray{},
+		}
+
+		agg := &datatypes.Aggregate{
+			Type: datatypes.AggregateTypeMeanCount,
+		}
+
+		got, _ := newAggregateArrayCursor(context.Background(), agg, &MockFloatArrayCursor{})
+
+		if diff := cmp.Diff(got, want, cmp.AllowUnexported(floatWindowMeanCountArrayCursor{}), cmpOptions); diff != "" {
+			t.Fatalf("did not get expected cursor; -got/+want:\n%v", diff)
+		}
+	})
+
 }
 
 func TestNewWindowAggregateArrayCursorMonths_Float(t *testing.T) {
@@ -249,6 +267,31 @@ func TestNewWindowAggregateArrayCursorMonths_Float(t *testing.T) {
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockFloatArrayCursor{})
 
 		if diff := cmp.Diff(got, want, cmp.AllowUnexported(floatWindowMeanArrayCursor{}), cmpOptions); diff != "" {
+			t.Fatalf("did not get expected cursor; -got/+want:\n%v", diff)
+		}
+	})
+
+	t.Run("MeanCount", func(t *testing.T) {
+		window, _ := interval.NewWindow(
+			values.MakeDuration(int64(time.Hour), 0, false),
+			values.MakeDuration(int64(time.Hour), 0, false),
+			values.MakeDuration(0, 0, false),
+		)
+
+		want := &floatWindowMeanCountArrayCursor{
+			FloatArrayCursor: &MockFloatArrayCursor{},
+			res:              cursors.NewTwoFloatArrayLen(MaxPointsPerBlock),
+			tmp:              &cursors.FloatArray{},
+			window:           window,
+		}
+
+		agg := &datatypes.Aggregate{
+			Type: datatypes.AggregateTypeMeanCount,
+		}
+
+		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockFloatArrayCursor{})
+
+		if diff := cmp.Diff(got, want, cmp.AllowUnexported(floatWindowMeanCountArrayCursor{}), cmpOptions); diff != "" {
 			t.Fatalf("did not get expected cursor; -got/+want:\n%v", diff)
 		}
 	})
@@ -382,6 +425,31 @@ func TestNewWindowAggregateArrayCursor_Float(t *testing.T) {
 		}
 	})
 
+	t.Run("MeanCount", func(t *testing.T) {
+		window, _ := interval.NewWindow(
+			values.MakeDuration(0, 1, false),
+			values.MakeDuration(0, 1, false),
+			values.MakeDuration(0, 0, false),
+		)
+
+		want := &floatWindowMeanCountArrayCursor{
+			FloatArrayCursor: &MockFloatArrayCursor{},
+			res:              cursors.NewTwoFloatArrayLen(MaxPointsPerBlock),
+			tmp:              &cursors.FloatArray{},
+			window:           window,
+		}
+
+		agg := &datatypes.Aggregate{
+			Type: datatypes.AggregateTypeMeanCount,
+		}
+
+		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockFloatArrayCursor{})
+
+		if diff := cmp.Diff(got, want, cmp.AllowUnexported(floatWindowMeanCountArrayCursor{}), cmpOptions); diff != "" {
+			t.Fatalf("did not get expected cursor; -got/+want:\n%v", diff)
+		}
+	})
+
 }
 
 type MockIntegerArrayCursor struct {
@@ -484,6 +552,24 @@ func TestNewAggregateArrayCursor_Integer(t *testing.T) {
 		got, _ := newAggregateArrayCursor(context.Background(), agg, &MockIntegerArrayCursor{})
 
 		if diff := cmp.Diff(got, want, cmp.AllowUnexported(integerWindowMeanArrayCursor{}), cmpOptions); diff != "" {
+			t.Fatalf("did not get expected cursor; -got/+want:\n%v", diff)
+		}
+	})
+
+	t.Run("MeanCount", func(t *testing.T) {
+		want := &integerWindowMeanCountArrayCursor{
+			IntegerArrayCursor: &MockIntegerArrayCursor{},
+			res:                cursors.NewTwoFloatArrayLen(1),
+			tmp:                &cursors.IntegerArray{},
+		}
+
+		agg := &datatypes.Aggregate{
+			Type: datatypes.AggregateTypeMeanCount,
+		}
+
+		got, _ := newAggregateArrayCursor(context.Background(), agg, &MockIntegerArrayCursor{})
+
+		if diff := cmp.Diff(got, want, cmp.AllowUnexported(integerWindowMeanCountArrayCursor{}), cmpOptions); diff != "" {
 			t.Fatalf("did not get expected cursor; -got/+want:\n%v", diff)
 		}
 	})
@@ -617,6 +703,31 @@ func TestNewWindowAggregateArrayCursorMonths_Integer(t *testing.T) {
 		}
 	})
 
+	t.Run("MeanCount", func(t *testing.T) {
+		window, _ := interval.NewWindow(
+			values.MakeDuration(int64(time.Hour), 0, false),
+			values.MakeDuration(int64(time.Hour), 0, false),
+			values.MakeDuration(0, 0, false),
+		)
+
+		want := &integerWindowMeanCountArrayCursor{
+			IntegerArrayCursor: &MockIntegerArrayCursor{},
+			res:                cursors.NewTwoFloatArrayLen(MaxPointsPerBlock),
+			tmp:                &cursors.IntegerArray{},
+			window:             window,
+		}
+
+		agg := &datatypes.Aggregate{
+			Type: datatypes.AggregateTypeMeanCount,
+		}
+
+		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockIntegerArrayCursor{})
+
+		if diff := cmp.Diff(got, want, cmp.AllowUnexported(integerWindowMeanCountArrayCursor{}), cmpOptions); diff != "" {
+			t.Fatalf("did not get expected cursor; -got/+want:\n%v", diff)
+		}
+	})
+
 }
 
 func TestNewWindowAggregateArrayCursor_Integer(t *testing.T) {
@@ -746,6 +857,31 @@ func TestNewWindowAggregateArrayCursor_Integer(t *testing.T) {
 		}
 	})
 
+	t.Run("MeanCount", func(t *testing.T) {
+		window, _ := interval.NewWindow(
+			values.MakeDuration(0, 1, false),
+			values.MakeDuration(0, 1, false),
+			values.MakeDuration(0, 0, false),
+		)
+
+		want := &integerWindowMeanCountArrayCursor{
+			IntegerArrayCursor: &MockIntegerArrayCursor{},
+			res:                cursors.NewTwoFloatArrayLen(MaxPointsPerBlock),
+			tmp:                &cursors.IntegerArray{},
+			window:             window,
+		}
+
+		agg := &datatypes.Aggregate{
+			Type: datatypes.AggregateTypeMeanCount,
+		}
+
+		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockIntegerArrayCursor{})
+
+		if diff := cmp.Diff(got, want, cmp.AllowUnexported(integerWindowMeanCountArrayCursor{}), cmpOptions); diff != "" {
+			t.Fatalf("did not get expected cursor; -got/+want:\n%v", diff)
+		}
+	})
+
 }
 
 type MockUnsignedArrayCursor struct {
@@ -848,6 +984,24 @@ func TestNewAggregateArrayCursor_Unsigned(t *testing.T) {
 		got, _ := newAggregateArrayCursor(context.Background(), agg, &MockUnsignedArrayCursor{})
 
 		if diff := cmp.Diff(got, want, cmp.AllowUnexported(unsignedWindowMeanArrayCursor{}), cmpOptions); diff != "" {
+			t.Fatalf("did not get expected cursor; -got/+want:\n%v", diff)
+		}
+	})
+
+	t.Run("MeanCount", func(t *testing.T) {
+		want := &unsignedWindowMeanCountArrayCursor{
+			UnsignedArrayCursor: &MockUnsignedArrayCursor{},
+			res:                 cursors.NewTwoFloatArrayLen(1),
+			tmp:                 &cursors.UnsignedArray{},
+		}
+
+		agg := &datatypes.Aggregate{
+			Type: datatypes.AggregateTypeMeanCount,
+		}
+
+		got, _ := newAggregateArrayCursor(context.Background(), agg, &MockUnsignedArrayCursor{})
+
+		if diff := cmp.Diff(got, want, cmp.AllowUnexported(unsignedWindowMeanCountArrayCursor{}), cmpOptions); diff != "" {
 			t.Fatalf("did not get expected cursor; -got/+want:\n%v", diff)
 		}
 	})
@@ -981,6 +1135,31 @@ func TestNewWindowAggregateArrayCursorMonths_Unsigned(t *testing.T) {
 		}
 	})
 
+	t.Run("MeanCount", func(t *testing.T) {
+		window, _ := interval.NewWindow(
+			values.MakeDuration(int64(time.Hour), 0, false),
+			values.MakeDuration(int64(time.Hour), 0, false),
+			values.MakeDuration(0, 0, false),
+		)
+
+		want := &unsignedWindowMeanCountArrayCursor{
+			UnsignedArrayCursor: &MockUnsignedArrayCursor{},
+			res:                 cursors.NewTwoFloatArrayLen(MaxPointsPerBlock),
+			tmp:                 &cursors.UnsignedArray{},
+			window:              window,
+		}
+
+		agg := &datatypes.Aggregate{
+			Type: datatypes.AggregateTypeMeanCount,
+		}
+
+		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockUnsignedArrayCursor{})
+
+		if diff := cmp.Diff(got, want, cmp.AllowUnexported(unsignedWindowMeanCountArrayCursor{}), cmpOptions); diff != "" {
+			t.Fatalf("did not get expected cursor; -got/+want:\n%v", diff)
+		}
+	})
+
 }
 
 func TestNewWindowAggregateArrayCursor_Unsigned(t *testing.T) {
@@ -1106,6 +1285,31 @@ func TestNewWindowAggregateArrayCursor_Unsigned(t *testing.T) {
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockUnsignedArrayCursor{})
 
 		if diff := cmp.Diff(got, want, cmp.AllowUnexported(unsignedWindowMeanArrayCursor{}), cmpOptions); diff != "" {
+			t.Fatalf("did not get expected cursor; -got/+want:\n%v", diff)
+		}
+	})
+
+	t.Run("MeanCount", func(t *testing.T) {
+		window, _ := interval.NewWindow(
+			values.MakeDuration(0, 1, false),
+			values.MakeDuration(0, 1, false),
+			values.MakeDuration(0, 0, false),
+		)
+
+		want := &unsignedWindowMeanCountArrayCursor{
+			UnsignedArrayCursor: &MockUnsignedArrayCursor{},
+			res:                 cursors.NewTwoFloatArrayLen(MaxPointsPerBlock),
+			tmp:                 &cursors.UnsignedArray{},
+			window:              window,
+		}
+
+		agg := &datatypes.Aggregate{
+			Type: datatypes.AggregateTypeMeanCount,
+		}
+
+		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockUnsignedArrayCursor{})
+
+		if diff := cmp.Diff(got, want, cmp.AllowUnexported(unsignedWindowMeanCountArrayCursor{}), cmpOptions); diff != "" {
 			t.Fatalf("did not get expected cursor; -got/+want:\n%v", diff)
 		}
 	})

@@ -45,6 +45,7 @@ type ResponseWriter struct {
 		String   []*datatypes.ReadResponse_Frame_StringPoints
 		Series   []*datatypes.ReadResponse_Frame_Series
 		Group    []*datatypes.ReadResponse_Frame_Group
+		TwoFloat   []*datatypes.ReadResponse_Frame_TwoFloatPoints
 	}
 
 	hints datatypes.HintFlags
@@ -229,7 +230,10 @@ func (w *ResponseWriter) streamCursor(cur cursors.Cursor) {
 			w.streamBooleanArraySeries(cur)
 		case cursors.StringArrayCursor:
 			w.streamStringArraySeries(cur)
+		case cursors.TwoFloatArrayCursor:
+			w.streamTwoFloatArraySeries(cur)
 		default:
+			//TODO: array
 			panic(fmt.Sprintf("unreachable: %T", cur))
 		}
 
@@ -245,7 +249,10 @@ func (w *ResponseWriter) streamCursor(cur cursors.Cursor) {
 			w.streamBooleanArrayPoints(cur)
 		case cursors.StringArrayCursor:
 			w.streamStringArrayPoints(cur)
+		case cursors.TwoFloatArrayCursor:
+			w.streamTwoFloatArrayPoints(cur)
 		default:
+			//TODO: array
 			panic(fmt.Sprintf("unreachable: %T", cur))
 		}
 	}
@@ -267,6 +274,7 @@ func (w *ResponseWriter) Flush() {
 		d := w.res.Frames[i].Data
 		w.res.Frames[i].Data = nil
 		switch p := d.(type) {
+		// TODO: float array frame
 		case *datatypes.ReadResponse_Frame_FloatPoints:
 			w.putFloatPointsFrame(p)
 		case *datatypes.ReadResponse_Frame_IntegerPoints:
@@ -277,6 +285,8 @@ func (w *ResponseWriter) Flush() {
 			w.putBooleanPointsFrame(p)
 		case *datatypes.ReadResponse_Frame_StringPoints:
 			w.putStringPointsFrame(p)
+		case *datatypes.ReadResponse_Frame_TwoFloatPoints:
+			w.putTwoFloatPointsFrame(p)
 		case *datatypes.ReadResponse_Frame_Series:
 			w.putSeriesFrame(p)
 		case *datatypes.ReadResponse_Frame_Group:
