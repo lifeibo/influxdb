@@ -32,6 +32,9 @@ workflows:
           requires:
             - godeps
             - jsdeps
+      - build_e2e_image:
+          requires:
+            - build
       - e2e:
           requires:
             - build
@@ -618,6 +621,19 @@ jobs:
   #################################
   ### e2e/integration test jobs ###
   #################################
+
+  build_e2e_image:
+    docker:
+      - image: docker:20-git
+    resource_class: large
+    working_directory: /home/circleci/go/src/github.com/influxdata/influxdb
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /home/circleci/go/src/github.com/influxdata/influxdb
+      run:
+        name: build the image
+        command: ls -lsa
 
   e2e:
     docker:
