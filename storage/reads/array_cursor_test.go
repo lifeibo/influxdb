@@ -77,11 +77,11 @@ func makeFloatArray(n int, tsStart time.Time, tsStep time.Duration, valueFn func
 	return fa
 }
 
-func makeTwoFloatArray(n int, tsStart time.Time, tsStep time.Duration, valueFn func(i int64) (float64, float64)) *cursors.TwoFloatArray {
+func makeTwoFloatArray(n int, tsStart time.Time, tsStep time.Duration, valueFn func(i int64) (float64, int64)) *cursors.TwoFloatArray {
 	fa := &cursors.TwoFloatArray{
 		Timestamps: make([]int64, n),
 		Values0:    make([]float64, n),
-		Values1:    make([]float64, n),
+		Values1:    make([]int64, n),
 	}
 
 	for i := 0; i < n; i++ {
@@ -2111,7 +2111,7 @@ func TestWindowMeanCountArrayCursor(t *testing.T) {
 				),
 			},
 			wantTwoFloats: []*cursors.TwoFloatArray{
-				makeTwoFloatArray(1, maxTimestamp, 0, func(int64) (float64, float64) { return 3.0, 5 }),
+				makeTwoFloatArray(1, maxTimestamp, 0, func(int64) (float64, int64) { return 3.0, 5 }),
 			},
 		},
 		{
@@ -2125,7 +2125,7 @@ func TestWindowMeanCountArrayCursor(t *testing.T) {
 				),
 			},
 			wantTwoFloats: []*cursors.TwoFloatArray{
-				makeTwoFloatArray(1, maxTimestamp, 0, func(int64) (float64, float64) { return 3.5, 6 }),
+				makeTwoFloatArray(1, maxTimestamp, 0, func(int64) (float64, int64) { return 3.5, 6 }),
 			},
 		},
 		{
@@ -2148,7 +2148,7 @@ func TestWindowMeanCountArrayCursor(t *testing.T) {
 			},
 			wantTwoFloats: []*cursors.TwoFloatArray{
 				makeTwoFloatArray(4, mustParseTime("2010-01-01T00:30:00Z"), 30*time.Minute,
-					func(i int64) (float64, float64) { return 0.5 + float64(i)*2, 2 }),
+					func(i int64) (float64, int64) { return 0.5 + float64(i)*2, 2 }),
 			},
 		},
 		{
@@ -2166,8 +2166,8 @@ func TestWindowMeanCountArrayCursor(t *testing.T) {
 			},
 			wantTwoFloats: []*cursors.TwoFloatArray{
 				makeTwoFloatArray(5, mustParseTime("2010-01-01T00:05:00Z"), 30*time.Minute,
-					func(i int64) (float64, float64) {
-						return []float64{0, 1.5, 3.5, 5.5, 7}[i], []float64{1, 2, 2, 2, 1}[i]
+					func(i int64) (float64, int64) {
+						return []float64{0, 1.5, 3.5, 5.5, 7}[i], []int64{1, 2, 2, 2, 1}[i]
 					}),
 			},
 		},
@@ -2185,7 +2185,7 @@ func TestWindowMeanCountArrayCursor(t *testing.T) {
 			},
 			wantTwoFloats: []*cursors.TwoFloatArray{
 				makeTwoFloatArray(2, mustParseTime("2010-01-01T00:15:00Z"), 30*time.Minute,
-					func(i int64) (float64, float64) { return 100 + float64(i), 1 }),
+					func(i int64) (float64, int64) { return 100 + float64(i), 1 }),
 			},
 		},
 	}

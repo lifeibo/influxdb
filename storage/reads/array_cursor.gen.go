@@ -1154,7 +1154,7 @@ WINDOWS:
 				if windowHasPoints {
 					c.res.Timestamps[pos] = windowEnd
 					c.res.Values0[pos] = sum / float64(count)
-					c.res.Values1[pos] = float64(count)
+					c.res.Values1[pos] = count
 					pos++
 					if pos >= MaxPointsPerBlock {
 						// the output array is full,
@@ -1192,7 +1192,7 @@ WINDOWS:
 			if windowHasPoints {
 				c.res.Timestamps[pos] = windowEnd
 				c.res.Values0[pos] = sum / float64(count)
-				c.res.Values1[pos] = float64(count)
+				c.res.Values1[pos] = count
 				pos++
 			}
 			break WINDOWS
@@ -2157,7 +2157,7 @@ WINDOWS:
 				if windowHasPoints {
 					c.res.Timestamps[pos] = windowEnd
 					c.res.Values0[pos] = sum / float64(count)
-					c.res.Values1[pos] = float64(count)
+					c.res.Values1[pos] = count
 					pos++
 					if pos >= MaxPointsPerBlock {
 						// the output array is full,
@@ -2195,7 +2195,7 @@ WINDOWS:
 			if windowHasPoints {
 				c.res.Timestamps[pos] = windowEnd
 				c.res.Values0[pos] = sum / float64(count)
-				c.res.Values1[pos] = float64(count)
+				c.res.Values1[pos] = count
 				pos++
 			}
 			break WINDOWS
@@ -3160,7 +3160,7 @@ WINDOWS:
 				if windowHasPoints {
 					c.res.Timestamps[pos] = windowEnd
 					c.res.Values0[pos] = sum / float64(count)
-					c.res.Values1[pos] = float64(count)
+					c.res.Values1[pos] = count
 					pos++
 					if pos >= MaxPointsPerBlock {
 						// the output array is full,
@@ -3198,7 +3198,7 @@ WINDOWS:
 			if windowHasPoints {
 				c.res.Timestamps[pos] = windowEnd
 				c.res.Values0[pos] = sum / float64(count)
-				c.res.Values1[pos] = float64(count)
+				c.res.Values1[pos] = count
 				pos++
 			}
 			break WINDOWS

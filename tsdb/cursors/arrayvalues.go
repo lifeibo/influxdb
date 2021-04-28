@@ -4,14 +4,14 @@ package cursors
 type TwoFloatArray struct {
 	Timestamps []int64
 	Values0    []float64
-	Values1    []float64
+	Values1    []int64
 }
 
 func NewTwoFloatArrayLen(sz int) *TwoFloatArray {
 	return &TwoFloatArray{
 		Timestamps: make([]int64, sz),
 		Values0:    make([]float64, sz),
-		Values1:    make([]float64, sz),
+		Values1:    make([]int64, sz),
 	}
 }
 

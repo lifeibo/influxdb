@@ -44,7 +44,12 @@ type ResponseWriter struct {
 		String   []*datatypes.ReadResponse_Frame_StringPoints
 		Series   []*datatypes.ReadResponse_Frame_Series
 		Group    []*datatypes.ReadResponse_Frame_Group
-		TwoFloat []*datatypes.ReadResponse_Frame_TwoFloatPoints
+		Multi    []*datatypes.ReadResponse_Frame_MultiPoints
+		MultiInteger []*datatypes.ReadResponse_AnyPoints_IntegerV
+		MultiFloat []*datatypes.ReadResponse_AnyPoints_FloatV
+		MultiUnsigned []*datatypes.ReadResponse_AnyPoints_UnsignedV
+		MultiBoolean []*datatypes.ReadResponse_AnyPoints_BooleanV
+		MultiString []*datatypes.ReadResponse_AnyPoints_StringV
 	}
 
 	hints datatypes.HintFlags
@@ -232,7 +237,6 @@ func (w *ResponseWriter) streamCursor(cur cursors.Cursor) {
 		case cursors.TwoFloatArrayCursor:
 			w.streamTwoFloatArraySeries(cur)
 		default:
-			//TODO: array
 			panic(fmt.Sprintf("unreachable: %T", cur))
 		}
 
@@ -251,7 +255,6 @@ func (w *ResponseWriter) streamCursor(cur cursors.Cursor) {
 		case cursors.TwoFloatArrayCursor:
 			w.streamTwoFloatArrayPoints(cur)
 		default:
-			//TODO: array
 			panic(fmt.Sprintf("unreachable: %T", cur))
 		}
 	}
@@ -273,7 +276,6 @@ func (w *ResponseWriter) Flush() {
 		d := w.res.Frames[i].Data
 		w.res.Frames[i].Data = nil
 		switch p := d.(type) {
-		// TODO: float array frame
 		case *datatypes.ReadResponse_Frame_FloatPoints:
 			w.putFloatPointsFrame(p)
 		case *datatypes.ReadResponse_Frame_IntegerPoints:
@@ -284,8 +286,8 @@ func (w *ResponseWriter) Flush() {
 			w.putBooleanPointsFrame(p)
 		case *datatypes.ReadResponse_Frame_StringPoints:
 			w.putStringPointsFrame(p)
-		case *datatypes.ReadResponse_Frame_TwoFloatPoints:
-			w.putTwoFloatPointsFrame(p)
+		case *datatypes.ReadResponse_Frame_MultiPoints:
+			w.putMultiPointsFrame(p)
 		case *datatypes.ReadResponse_Frame_Series:
 			w.putSeriesFrame(p)
 		case *datatypes.ReadResponse_Frame_Group:
@@ -293,4 +295,125 @@ func (w *ResponseWriter) Flush() {
 		}
 	}
 	w.res.Frames = w.res.Frames[:0]
+}
+
+// The MultiPoints <==> TwoFloat converters do not fit the codegen pattern in response_writer.gen.go
+
+func (w *ResponseWriter) getMultiPointsFrameForTwoFloat() *datatypes.ReadResponse_Frame_MultiPoints {
+	var res *datatypes.ReadResponse_Frame_MultiPoints
+	if len(w.buffer.Multi) > 0 {
+		i := len(w.buffer.Multi) - 1
+		res = w.buffer.Multi[i]
+		w.buffer.Multi[i] = nil
+		w.buffer.Multi = w.buffer.Multi[:i]
+	} else {
+		res = &datatypes.ReadResponse_Frame_MultiPoints{
+			MultiPoints: &datatypes.ReadResponse_MultiPointsFrame{
+				Timestamps: make([]int64, 0, batchSize),
+			},
+		}
+	}
+	res.MultiPoints.ValueArrays = append(res.MultiPoints.ValueArrays, datatypes.ReadResponse_AnyPoints{Data: w.getMultiFloat()})
+	res.MultiPoints.ValueArrays = append(res.MultiPoints.ValueArrays, datatypes.ReadResponse_AnyPoints{Data: w.getMultiInteger()})
+	return res
+}
+
+func (w *ResponseWriter) putMultiPointsFrame(f *datatypes.ReadResponse_Frame_MultiPoints) {
+	f.MultiPoints.Timestamps = f.MultiPoints.Timestamps[:0]
+	for _, v := range f.MultiPoints.ValueArrays {
+		switch v := v.Data.(type) {
+		case *datatypes.ReadResponse_AnyPoints_IntegerV:
+			w.putMultiInteger(v)
+		case *datatypes.ReadResponse_AnyPoints_FloatV:
+			w.putMultiFloat(v)
+		case *datatypes.ReadResponse_AnyPoints_UnsignedV:
+			w.putMultiUnsigned(v)
+		case *datatypes.ReadResponse_AnyPoints_BooleanV:
+			w.putMultiBoolean(v)
+		case *datatypes.ReadResponse_AnyPoints_StringV:
+			w.putMultiString(v)
+		}
+	}
+	f.MultiPoints.ValueArrays = f.MultiPoints.ValueArrays[:0]
+	w.buffer.Multi = append(w.buffer.Multi, f)
+}
+
+func (w *ResponseWriter) streamTwoFloatArraySeries(cur cursors.TwoFloatArrayCursor) {
+	w.sf.DataType = datatypes.DataTypeMulti
+	ss := len(w.res.Frames) - 1
+	a := cur.Next()
+	if len(a.Timestamps) == 0 {
+		w.sz -= w.sf.Size()
+		w.putSeriesFrame(w.res.Frames[ss].Data.(*datatypes.ReadResponse_Frame_Series))
+		w.res.Frames = w.res.Frames[:ss]
+	} else if w.sz > writeSize {
+		w.Flush()
+	}
+}
+
+func (w *ResponseWriter) streamTwoFloatArrayPoints(cur cursors.TwoFloatArrayCursor) {
+	w.sf.DataType = datatypes.DataTypeMulti
+	ss := len(w.res.Frames) - 1
+
+	p := w.getMultiPointsFrameForTwoFloat()
+	frame := p.MultiPoints
+	w.res.Frames = append(w.res.Frames, datatypes.ReadResponse_Frame{Data: p})
+
+	var seriesValueCount = 0
+	for {
+		// If the number of values produced by cur > 1000,
+		// cur.Next() will produce batches of values that are of
+		// length ≤ 1000.
+		// We attempt to limit the frame Timestamps / Values lengths
+		// the same to avoid allocations. These frames are recycled
+		// after flushing so that on repeated use there should be enough space
+		// to append values from a into frame without additional allocations.
+		a := cur.Next()
+
+		if len(a.Timestamps) == 0 {
+			break
+		}
+
+		seriesValueCount += a.Len()
+		// As specified in the struct definition, w.sz is an estimated
+		// size (in bytes) of the buffered data. It is therefore a
+		// deliberate choice to accumulate using the array Size, which is
+		// cheap to calculate. Calling frame.Size() can be expensive
+		// when using varint encoding for numbers.
+		w.sz += a.Size()
+
+		frame.Timestamps = append(frame.Timestamps, a.Timestamps...)
+		// This is guaranteed to be the right layout since we called getMultiPointsFrameForTwoFloat.
+		frame.ValueArrays[0].GetFloatV().Values = append(frame.ValueArrays[0].GetFloatV().Values, a.Values0...)
+		frame.ValueArrays[1].GetIntegerV().Values = append(frame.ValueArrays[1].GetIntegerV().Values, a.Values1...)
+
+		// given the expectation of cur.Next, we attempt to limit
+		// the number of values appended to the frame to batchSize (1000)
+		needsFrame := len(frame.Timestamps) >= batchSize
+
+		if w.sz >= writeSize {
+			needsFrame = true
+			w.Flush()
+			if w.err != nil {
+				break
+			}
+		}
+
+		if needsFrame {
+			// new frames are returned with Timestamps and Values preallocated
+			// to a minimum of batchSize length to reduce further allocations.
+			p = w.getMultiPointsFrameForTwoFloat()
+			frame = p.MultiPoints
+			w.res.Frames = append(w.res.Frames, datatypes.ReadResponse_Frame{Data: p})
+		}
+	}
+
+	w.vc += seriesValueCount
+	if seriesValueCount == 0 {
+		w.sz -= w.sf.Size()
+		w.putSeriesFrame(w.res.Frames[ss].Data.(*datatypes.ReadResponse_Frame_Series))
+		w.res.Frames = w.res.Frames[:ss]
+	} else if w.sz > writeSize {
+		w.Flush()
+	}
 }
