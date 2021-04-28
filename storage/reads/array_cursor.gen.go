@@ -1091,7 +1091,7 @@ WINDOWS:
 
 type floatWindowMeanCountArrayCursor struct {
 	cursors.FloatArrayCursor
-	res    *cursors.TwoFloatArray
+	res    *cursors.MeanCountArray
 	tmp    *cursors.FloatArray
 	window interval.Window
 }
@@ -1103,7 +1103,7 @@ func newFloatWindowMeanCountArrayCursor(cur cursors.FloatArrayCursor, window int
 	}
 	return &floatWindowMeanCountArrayCursor{
 		FloatArrayCursor: cur,
-		res:              cursors.NewTwoFloatArrayLen(resLen),
+		res:              cursors.NewMeanCountArrayLen(resLen),
 		tmp:              &cursors.FloatArray{},
 		window:           window,
 	}
@@ -1113,7 +1113,7 @@ func (c *floatWindowMeanCountArrayCursor) Stats() cursors.CursorStats {
 	return c.FloatArrayCursor.Stats()
 }
 
-func (c *floatWindowMeanCountArrayCursor) Next() *cursors.TwoFloatArray {
+func (c *floatWindowMeanCountArrayCursor) Next() *cursors.MeanCountArray {
 	pos := 0
 	c.res.Timestamps = c.res.Timestamps[:cap(c.res.Timestamps)]
 
@@ -1128,7 +1128,7 @@ func (c *floatWindowMeanCountArrayCursor) Next() *cursors.TwoFloatArray {
 	}
 
 	if a.Len() == 0 {
-		return &cursors.TwoFloatArray{}
+		return &cursors.MeanCountArray{}
 	}
 
 	rowIdx := 0
@@ -2094,7 +2094,7 @@ WINDOWS:
 
 type integerWindowMeanCountArrayCursor struct {
 	cursors.IntegerArrayCursor
-	res    *cursors.TwoFloatArray
+	res    *cursors.MeanCountArray
 	tmp    *cursors.IntegerArray
 	window interval.Window
 }
@@ -2106,7 +2106,7 @@ func newIntegerWindowMeanCountArrayCursor(cur cursors.IntegerArrayCursor, window
 	}
 	return &integerWindowMeanCountArrayCursor{
 		IntegerArrayCursor: cur,
-		res:                cursors.NewTwoFloatArrayLen(resLen),
+		res:                cursors.NewMeanCountArrayLen(resLen),
 		tmp:                &cursors.IntegerArray{},
 		window:             window,
 	}
@@ -2116,7 +2116,7 @@ func (c *integerWindowMeanCountArrayCursor) Stats() cursors.CursorStats {
 	return c.IntegerArrayCursor.Stats()
 }
 
-func (c *integerWindowMeanCountArrayCursor) Next() *cursors.TwoFloatArray {
+func (c *integerWindowMeanCountArrayCursor) Next() *cursors.MeanCountArray {
 	pos := 0
 	c.res.Timestamps = c.res.Timestamps[:cap(c.res.Timestamps)]
 
@@ -2131,7 +2131,7 @@ func (c *integerWindowMeanCountArrayCursor) Next() *cursors.TwoFloatArray {
 	}
 
 	if a.Len() == 0 {
-		return &cursors.TwoFloatArray{}
+		return &cursors.MeanCountArray{}
 	}
 
 	rowIdx := 0
@@ -3097,7 +3097,7 @@ WINDOWS:
 
 type unsignedWindowMeanCountArrayCursor struct {
 	cursors.UnsignedArrayCursor
-	res    *cursors.TwoFloatArray
+	res    *cursors.MeanCountArray
 	tmp    *cursors.UnsignedArray
 	window interval.Window
 }
@@ -3109,7 +3109,7 @@ func newUnsignedWindowMeanCountArrayCursor(cur cursors.UnsignedArrayCursor, wind
 	}
 	return &unsignedWindowMeanCountArrayCursor{
 		UnsignedArrayCursor: cur,
-		res:                 cursors.NewTwoFloatArrayLen(resLen),
+		res:                 cursors.NewMeanCountArrayLen(resLen),
 		tmp:                 &cursors.UnsignedArray{},
 		window:              window,
 	}
@@ -3119,7 +3119,7 @@ func (c *unsignedWindowMeanCountArrayCursor) Stats() cursors.CursorStats {
 	return c.UnsignedArrayCursor.Stats()
 }
 
-func (c *unsignedWindowMeanCountArrayCursor) Next() *cursors.TwoFloatArray {
+func (c *unsignedWindowMeanCountArrayCursor) Next() *cursors.MeanCountArray {
 	pos := 0
 	c.res.Timestamps = c.res.Timestamps[:cap(c.res.Timestamps)]
 
@@ -3134,7 +3134,7 @@ func (c *unsignedWindowMeanCountArrayCursor) Next() *cursors.TwoFloatArray {
 	}
 
 	if a.Len() == 0 {
-		return &cursors.TwoFloatArray{}
+		return &cursors.MeanCountArray{}
 	}
 
 	rowIdx := 0

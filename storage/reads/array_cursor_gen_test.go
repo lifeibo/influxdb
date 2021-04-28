@@ -127,7 +127,7 @@ func TestNewAggregateArrayCursor_Float(t *testing.T) {
 	t.Run("MeanCount", func(t *testing.T) {
 		want := &floatWindowMeanCountArrayCursor{
 			FloatArrayCursor: &MockFloatArrayCursor{},
-			res:              cursors.NewTwoFloatArrayLen(1),
+			res:              cursors.NewMeanCountArrayLen(1),
 			tmp:              &cursors.FloatArray{},
 		}
 
@@ -281,7 +281,7 @@ func TestNewWindowAggregateArrayCursorMonths_Float(t *testing.T) {
 
 		want := &floatWindowMeanCountArrayCursor{
 			FloatArrayCursor: &MockFloatArrayCursor{},
-			res:              cursors.NewTwoFloatArrayLen(MaxPointsPerBlock),
+			res:              cursors.NewMeanCountArrayLen(MaxPointsPerBlock),
 			tmp:              &cursors.FloatArray{},
 			window:           window,
 		}
@@ -436,7 +436,7 @@ func TestNewWindowAggregateArrayCursor_Float(t *testing.T) {
 
 		want := &floatWindowMeanCountArrayCursor{
 			FloatArrayCursor: &MockFloatArrayCursor{},
-			res:              cursors.NewTwoFloatArrayLen(MaxPointsPerBlock),
+			res:              cursors.NewMeanCountArrayLen(MaxPointsPerBlock),
 			tmp:              &cursors.FloatArray{},
 			window:           window,
 		}
@@ -562,7 +562,7 @@ func TestNewAggregateArrayCursor_Integer(t *testing.T) {
 	t.Run("MeanCount", func(t *testing.T) {
 		want := &integerWindowMeanCountArrayCursor{
 			IntegerArrayCursor: &MockIntegerArrayCursor{},
-			res:                cursors.NewTwoFloatArrayLen(1),
+			res:                cursors.NewMeanCountArrayLen(1),
 			tmp:                &cursors.IntegerArray{},
 		}
 
@@ -716,7 +716,7 @@ func TestNewWindowAggregateArrayCursorMonths_Integer(t *testing.T) {
 
 		want := &integerWindowMeanCountArrayCursor{
 			IntegerArrayCursor: &MockIntegerArrayCursor{},
-			res:                cursors.NewTwoFloatArrayLen(MaxPointsPerBlock),
+			res:                cursors.NewMeanCountArrayLen(MaxPointsPerBlock),
 			tmp:                &cursors.IntegerArray{},
 			window:             window,
 		}
@@ -871,7 +871,7 @@ func TestNewWindowAggregateArrayCursor_Integer(t *testing.T) {
 
 		want := &integerWindowMeanCountArrayCursor{
 			IntegerArrayCursor: &MockIntegerArrayCursor{},
-			res:                cursors.NewTwoFloatArrayLen(MaxPointsPerBlock),
+			res:                cursors.NewMeanCountArrayLen(MaxPointsPerBlock),
 			tmp:                &cursors.IntegerArray{},
 			window:             window,
 		}
@@ -997,7 +997,7 @@ func TestNewAggregateArrayCursor_Unsigned(t *testing.T) {
 	t.Run("MeanCount", func(t *testing.T) {
 		want := &unsignedWindowMeanCountArrayCursor{
 			UnsignedArrayCursor: &MockUnsignedArrayCursor{},
-			res:                 cursors.NewTwoFloatArrayLen(1),
+			res:                 cursors.NewMeanCountArrayLen(1),
 			tmp:                 &cursors.UnsignedArray{},
 		}
 
@@ -1151,7 +1151,7 @@ func TestNewWindowAggregateArrayCursorMonths_Unsigned(t *testing.T) {
 
 		want := &unsignedWindowMeanCountArrayCursor{
 			UnsignedArrayCursor: &MockUnsignedArrayCursor{},
-			res:                 cursors.NewTwoFloatArrayLen(MaxPointsPerBlock),
+			res:                 cursors.NewMeanCountArrayLen(MaxPointsPerBlock),
 			tmp:                 &cursors.UnsignedArray{},
 			window:              window,
 		}
@@ -1306,7 +1306,7 @@ func TestNewWindowAggregateArrayCursor_Unsigned(t *testing.T) {
 
 		want := &unsignedWindowMeanCountArrayCursor{
 			UnsignedArrayCursor: &MockUnsignedArrayCursor{},
-			res:                 cursors.NewTwoFloatArrayLen(MaxPointsPerBlock),
+			res:                 cursors.NewMeanCountArrayLen(MaxPointsPerBlock),
 			tmp:                 &cursors.UnsignedArray{},
 			window:              window,
 		}

@@ -39,9 +39,9 @@ type BooleanArrayCursor interface {
 	Next() *BooleanArray
 }
 
-type TwoFloatArrayCursor interface {
+type MeanCountArrayCursor interface {
 	Cursor
-	Next() *TwoFloatArray
+	Next() *MeanCountArray
 }
 
 type CursorRequest struct {

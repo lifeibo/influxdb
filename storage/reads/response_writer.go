@@ -234,8 +234,8 @@ func (w *ResponseWriter) streamCursor(cur cursors.Cursor) {
 			w.streamBooleanArraySeries(cur)
 		case cursors.StringArrayCursor:
 			w.streamStringArraySeries(cur)
-		case cursors.TwoFloatArrayCursor:
-			w.streamTwoFloatArraySeries(cur)
+		case cursors.MeanCountArrayCursor:
+			w.streamMeanCountArraySeries(cur)
 		default:
 			panic(fmt.Sprintf("unreachable: %T", cur))
 		}
@@ -252,8 +252,8 @@ func (w *ResponseWriter) streamCursor(cur cursors.Cursor) {
 			w.streamBooleanArrayPoints(cur)
 		case cursors.StringArrayCursor:
 			w.streamStringArrayPoints(cur)
-		case cursors.TwoFloatArrayCursor:
-			w.streamTwoFloatArrayPoints(cur)
+		case cursors.MeanCountArrayCursor:
+			w.streamMeanCountArrayPoints(cur)
 		default:
 			panic(fmt.Sprintf("unreachable: %T", cur))
 		}
@@ -297,9 +297,9 @@ func (w *ResponseWriter) Flush() {
 	w.res.Frames = w.res.Frames[:0]
 }
 
-// The MultiPoints <==> TwoFloat converters do not fit the codegen pattern in response_writer.gen.go
+// The MultiPoints <==> MeanCount converters do not fit the codegen pattern in response_writer.gen.go
 
-func (w *ResponseWriter) getMultiPointsFrameForTwoFloat() *datatypes.ReadResponse_Frame_MultiPoints {
+func (w *ResponseWriter) getMultiPointsFrameForMeanCount() *datatypes.ReadResponse_Frame_MultiPoints {
 	var res *datatypes.ReadResponse_Frame_MultiPoints
 	if len(w.buffer.Multi) > 0 {
 		i := len(w.buffer.Multi) - 1
@@ -338,7 +338,7 @@ func (w *ResponseWriter) putMultiPointsFrame(f *datatypes.ReadResponse_Frame_Mul
 	w.buffer.Multi = append(w.buffer.Multi, f)
 }
 
-func (w *ResponseWriter) streamTwoFloatArraySeries(cur cursors.TwoFloatArrayCursor) {
+func (w *ResponseWriter) streamMeanCountArraySeries(cur cursors.MeanCountArrayCursor) {
 	w.sf.DataType = datatypes.DataTypeMulti
 	ss := len(w.res.Frames) - 1
 	a := cur.Next()
@@ -351,11 +351,11 @@ func (w *ResponseWriter) streamTwoFloatArraySeries(cur cursors.TwoFloatArrayCurs
 	}
 }
 
-func (w *ResponseWriter) streamTwoFloatArrayPoints(cur cursors.TwoFloatArrayCursor) {
+func (w *ResponseWriter) streamMeanCountArrayPoints(cur cursors.MeanCountArrayCursor) {
 	w.sf.DataType = datatypes.DataTypeMulti
 	ss := len(w.res.Frames) - 1
 
-	p := w.getMultiPointsFrameForTwoFloat()
+	p := w.getMultiPointsFrameForMeanCount()
 	frame := p.MultiPoints
 	w.res.Frames = append(w.res.Frames, datatypes.ReadResponse_Frame{Data: p})
 
@@ -383,7 +383,7 @@ func (w *ResponseWriter) streamTwoFloatArrayPoints(cur cursors.TwoFloatArrayCurs
 		w.sz += a.Size()
 
 		frame.Timestamps = append(frame.Timestamps, a.Timestamps...)
-		// This is guaranteed to be the right layout since we called getMultiPointsFrameForTwoFloat.
+		// This is guaranteed to be the right layout since we called getMultiPointsFrameForMeanCount.
 		frame.ValueArrays[0].GetFloatV().Values = append(frame.ValueArrays[0].GetFloatV().Values, a.Values0...)
 		frame.ValueArrays[1].GetIntegerV().Values = append(frame.ValueArrays[1].GetIntegerV().Values, a.Values1...)
 
@@ -402,7 +402,7 @@ func (w *ResponseWriter) streamTwoFloatArrayPoints(cur cursors.TwoFloatArrayCurs
 		if needsFrame {
 			// new frames are returned with Timestamps and Values preallocated
 			// to a minimum of batchSize length to reduce further allocations.
-			p = w.getMultiPointsFrameForTwoFloat()
+			p = w.getMultiPointsFrameForMeanCount()
 			frame = p.MultiPoints
 			w.res.Frames = append(w.res.Frames, datatypes.ReadResponse_Frame{Data: p})
 		}

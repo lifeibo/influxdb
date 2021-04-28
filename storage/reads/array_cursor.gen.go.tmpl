@@ -498,7 +498,7 @@ func (c *{{$name}}Window{{$aggName}}ArrayCursor) Stats() cursors.CursorStats {
 func (c *{{$name}}Window{{$aggName}}ArrayCursor) Next() *cursors.{{.OutputTypeName}}Array {
 	pos := 0
 	c.res.Timestamps = c.res.Timestamps[:cap(c.res.Timestamps)]
-	{{if eq .OutputTypeName "TwoFloat" }}
+	{{if eq .OutputTypeName "MeanCount" }}
 	c.res.Values0 = c.res.Values0[:cap(c.res.Values0)]
 	c.res.Values1 = c.res.Values1[:cap(c.res.Values1)]
 	{{else}}
@@ -579,7 +579,7 @@ WINDOWS:
 	}
 
 	c.res.Timestamps = c.res.Timestamps[:pos]
-	{{if eq .OutputTypeName "TwoFloat" }}
+	{{if eq .OutputTypeName "MeanCount" }}
 	c.res.Values0 = c.res.Values0[:pos]
 	c.res.Values1 = c.res.Values1[:pos]
 	{{else}}

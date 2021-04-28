@@ -1,34 +1,34 @@
 package cursors
 
-// TwoFloatArray is too different to codegen easily
-type TwoFloatArray struct {
+// MeanCountArray is too different to codegen easily
+type MeanCountArray struct {
 	Timestamps []int64
 	Values0    []float64
 	Values1    []int64
 }
 
-func NewTwoFloatArrayLen(sz int) *TwoFloatArray {
-	return &TwoFloatArray{
+func NewMeanCountArrayLen(sz int) *MeanCountArray {
+	return &MeanCountArray{
 		Timestamps: make([]int64, sz),
 		Values0:    make([]float64, sz),
 		Values1:    make([]int64, sz),
 	}
 }
 
-func (a *TwoFloatArray) MinTime() int64 {
+func (a *MeanCountArray) MinTime() int64 {
 	return a.Timestamps[0]
 }
 
-func (a *TwoFloatArray) MaxTime() int64 {
+func (a *MeanCountArray) MaxTime() int64 {
 	return a.Timestamps[len(a.Timestamps)-1]
 }
 
-func (a *TwoFloatArray) Len() int {
+func (a *MeanCountArray) Len() int {
 	return len(a.Timestamps)
 }
 
 // Sizes for each type are different
-func (a *TwoFloatArray) Size() int {
+func (a *MeanCountArray) Size() int {
 	// size of timestamps + values
 	return len(a.Timestamps)*8 + len(a.Values0)*8 + len(a.Values1)*8
 }

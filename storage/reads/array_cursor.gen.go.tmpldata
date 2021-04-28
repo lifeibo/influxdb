@@ -46,7 +46,7 @@
 			},
 			{
 				"Name":"MeanCount",
-				"OutputTypeName":"TwoFloat",
+				"OutputTypeName":"MeanCount",
 				"AccDecls":"var sum float64; var count int64",
 				"Accumulate":"sum += a.Values[rowIdx]; count++",
 				"AccEmit":"c.res.Timestamps[pos] = windowEnd; c.res.Values0[pos] = sum / float64(count); c.res.Values1[pos] = count",
@@ -101,7 +101,7 @@
 			},
 			{
 				"Name":"MeanCount",
-				"OutputTypeName":"TwoFloat",
+				"OutputTypeName":"MeanCount",
 				"AccDecls":"var sum float64; var count int64",
 				"Accumulate":"sum += float64(a.Values[rowIdx]); count++",
 				"AccEmit":"c.res.Timestamps[pos] = windowEnd; c.res.Values0[pos] = sum / float64(count); c.res.Values1[pos] = count",
@@ -156,7 +156,7 @@
 			},
 			{
 				"Name":"MeanCount",
-				"OutputTypeName":"TwoFloat",
+				"OutputTypeName":"MeanCount",
 				"AccDecls":"var sum float64; var count int64",
 				"Accumulate":"sum += float64(a.Values[rowIdx]); count++",
 				"AccEmit":"c.res.Timestamps[pos] = windowEnd; c.res.Values0[pos] = sum / float64(count); c.res.Values1[pos] = count",
