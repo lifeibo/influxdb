@@ -631,9 +631,9 @@ jobs:
       - checkout
       - attach_workspace:
           at: /home/circleci/go/src/github.com/influxdata/influxdb
-      run:
-        name: build the image
-        command: ls -lsa
+      - run:
+          name: build the image
+          command: docker build -f docker/influxd/Dockerfile -t influxdb:acceptance
 
   e2e:
     docker:
