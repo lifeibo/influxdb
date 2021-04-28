@@ -88,7 +88,6 @@ message Aggregate {
     FIRST = 5 [(gogoproto.enumvalue_customname) = "AggregateTypeFirst"];
     LAST = 6 [(gogoproto.enumvalue_customname) = "AggregateTypeLast"];
     MEAN = 7 [(gogoproto.enumvalue_customname) = "AggregateTypeMean"];
-    MEANCOUNT = 8 [(gogoproto.enumvalue_customname) = "AggregateTypeMeanCount"];
   }
 
   AggregateType type = 1;

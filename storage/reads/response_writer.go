@@ -37,19 +37,19 @@ type ResponseWriter struct {
 	vc int // total value count
 
 	buffer struct {
-		Float    []*datatypes.ReadResponse_Frame_FloatPoints
-		Integer  []*datatypes.ReadResponse_Frame_IntegerPoints
-		Unsigned []*datatypes.ReadResponse_Frame_UnsignedPoints
-		Boolean  []*datatypes.ReadResponse_Frame_BooleanPoints
-		String   []*datatypes.ReadResponse_Frame_StringPoints
-		Series   []*datatypes.ReadResponse_Frame_Series
-		Group    []*datatypes.ReadResponse_Frame_Group
-		Multi    []*datatypes.ReadResponse_Frame_MultiPoints
-		MultiInteger []*datatypes.ReadResponse_AnyPoints_IntegerV
-		MultiFloat []*datatypes.ReadResponse_AnyPoints_FloatV
+		Float         []*datatypes.ReadResponse_Frame_FloatPoints
+		Integer       []*datatypes.ReadResponse_Frame_IntegerPoints
+		Unsigned      []*datatypes.ReadResponse_Frame_UnsignedPoints
+		Boolean       []*datatypes.ReadResponse_Frame_BooleanPoints
+		String        []*datatypes.ReadResponse_Frame_StringPoints
+		Series        []*datatypes.ReadResponse_Frame_Series
+		Group         []*datatypes.ReadResponse_Frame_Group
+		Multi         []*datatypes.ReadResponse_Frame_MultiPoints
+		MultiInteger  []*datatypes.ReadResponse_AnyPoints_IntegerV
+		MultiFloat    []*datatypes.ReadResponse_AnyPoints_FloatV
 		MultiUnsigned []*datatypes.ReadResponse_AnyPoints_UnsignedV
-		MultiBoolean []*datatypes.ReadResponse_AnyPoints_BooleanV
-		MultiString []*datatypes.ReadResponse_AnyPoints_StringV
+		MultiBoolean  []*datatypes.ReadResponse_AnyPoints_BooleanV
+		MultiString   []*datatypes.ReadResponse_AnyPoints_StringV
 	}
 
 	hints datatypes.HintFlags

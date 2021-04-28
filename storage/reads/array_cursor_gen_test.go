@@ -41,8 +41,8 @@ func TestNewAggregateArrayCursor_Float(t *testing.T) {
 			tmp:              &cursors.FloatArray{},
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeCount,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeCount},
 		}
 
 		got, _ := newAggregateArrayCursor(context.Background(), agg, &MockFloatArrayCursor{})
@@ -59,8 +59,8 @@ func TestNewAggregateArrayCursor_Float(t *testing.T) {
 			tmp:              &cursors.FloatArray{},
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeSum,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeSum},
 		}
 
 		got, _ := newAggregateArrayCursor(context.Background(), agg, &MockFloatArrayCursor{})
@@ -77,8 +77,8 @@ func TestNewAggregateArrayCursor_Float(t *testing.T) {
 			tmp:              &cursors.FloatArray{},
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeMin,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeMin},
 		}
 
 		got, _ := newAggregateArrayCursor(context.Background(), agg, &MockFloatArrayCursor{})
@@ -95,8 +95,8 @@ func TestNewAggregateArrayCursor_Float(t *testing.T) {
 			tmp:              &cursors.FloatArray{},
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeMax,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeMax},
 		}
 
 		got, _ := newAggregateArrayCursor(context.Background(), agg, &MockFloatArrayCursor{})
@@ -113,8 +113,8 @@ func TestNewAggregateArrayCursor_Float(t *testing.T) {
 			tmp:              &cursors.FloatArray{},
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeMean,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeMean},
 		}
 
 		got, _ := newAggregateArrayCursor(context.Background(), agg, &MockFloatArrayCursor{})
@@ -131,8 +131,9 @@ func TestNewAggregateArrayCursor_Float(t *testing.T) {
 			tmp:              &cursors.FloatArray{},
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeMeanCount,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeMean},
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeCount},
 		}
 
 		got, _ := newAggregateArrayCursor(context.Background(), agg, &MockFloatArrayCursor{})
@@ -160,8 +161,8 @@ func TestNewWindowAggregateArrayCursorMonths_Float(t *testing.T) {
 			window:           window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeCount,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeCount},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockFloatArrayCursor{})
@@ -185,8 +186,8 @@ func TestNewWindowAggregateArrayCursorMonths_Float(t *testing.T) {
 			window:           window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeSum,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeSum},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockFloatArrayCursor{})
@@ -210,8 +211,8 @@ func TestNewWindowAggregateArrayCursorMonths_Float(t *testing.T) {
 			window:           window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeMin,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeMin},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockFloatArrayCursor{})
@@ -235,8 +236,8 @@ func TestNewWindowAggregateArrayCursorMonths_Float(t *testing.T) {
 			window:           window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeMax,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeMax},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockFloatArrayCursor{})
@@ -260,8 +261,8 @@ func TestNewWindowAggregateArrayCursorMonths_Float(t *testing.T) {
 			window:           window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeMean,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeMean},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockFloatArrayCursor{})
@@ -285,8 +286,9 @@ func TestNewWindowAggregateArrayCursorMonths_Float(t *testing.T) {
 			window:           window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeMeanCount,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeMean},
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeCount},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockFloatArrayCursor{})
@@ -314,8 +316,8 @@ func TestNewWindowAggregateArrayCursor_Float(t *testing.T) {
 			window:           window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeCount,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeCount},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockFloatArrayCursor{})
@@ -339,8 +341,8 @@ func TestNewWindowAggregateArrayCursor_Float(t *testing.T) {
 			window:           window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeSum,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeSum},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockFloatArrayCursor{})
@@ -364,8 +366,8 @@ func TestNewWindowAggregateArrayCursor_Float(t *testing.T) {
 			window:           window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeMin,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeMin},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockFloatArrayCursor{})
@@ -389,8 +391,8 @@ func TestNewWindowAggregateArrayCursor_Float(t *testing.T) {
 			window:           window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeMax,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeMax},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockFloatArrayCursor{})
@@ -414,8 +416,8 @@ func TestNewWindowAggregateArrayCursor_Float(t *testing.T) {
 			window:           window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeMean,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeMean},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockFloatArrayCursor{})
@@ -439,8 +441,9 @@ func TestNewWindowAggregateArrayCursor_Float(t *testing.T) {
 			window:           window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeMeanCount,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeMean},
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeCount},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockFloatArrayCursor{})
@@ -473,8 +476,8 @@ func TestNewAggregateArrayCursor_Integer(t *testing.T) {
 			tmp:                &cursors.IntegerArray{},
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeCount,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeCount},
 		}
 
 		got, _ := newAggregateArrayCursor(context.Background(), agg, &MockIntegerArrayCursor{})
@@ -491,8 +494,8 @@ func TestNewAggregateArrayCursor_Integer(t *testing.T) {
 			tmp:                &cursors.IntegerArray{},
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeSum,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeSum},
 		}
 
 		got, _ := newAggregateArrayCursor(context.Background(), agg, &MockIntegerArrayCursor{})
@@ -509,8 +512,8 @@ func TestNewAggregateArrayCursor_Integer(t *testing.T) {
 			tmp:                &cursors.IntegerArray{},
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeMin,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeMin},
 		}
 
 		got, _ := newAggregateArrayCursor(context.Background(), agg, &MockIntegerArrayCursor{})
@@ -527,8 +530,8 @@ func TestNewAggregateArrayCursor_Integer(t *testing.T) {
 			tmp:                &cursors.IntegerArray{},
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeMax,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeMax},
 		}
 
 		got, _ := newAggregateArrayCursor(context.Background(), agg, &MockIntegerArrayCursor{})
@@ -545,8 +548,8 @@ func TestNewAggregateArrayCursor_Integer(t *testing.T) {
 			tmp:                &cursors.IntegerArray{},
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeMean,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeMean},
 		}
 
 		got, _ := newAggregateArrayCursor(context.Background(), agg, &MockIntegerArrayCursor{})
@@ -563,8 +566,9 @@ func TestNewAggregateArrayCursor_Integer(t *testing.T) {
 			tmp:                &cursors.IntegerArray{},
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeMeanCount,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeMean},
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeCount},
 		}
 
 		got, _ := newAggregateArrayCursor(context.Background(), agg, &MockIntegerArrayCursor{})
@@ -592,8 +596,8 @@ func TestNewWindowAggregateArrayCursorMonths_Integer(t *testing.T) {
 			window:             window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeCount,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeCount},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockIntegerArrayCursor{})
@@ -617,8 +621,8 @@ func TestNewWindowAggregateArrayCursorMonths_Integer(t *testing.T) {
 			window:             window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeSum,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeSum},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockIntegerArrayCursor{})
@@ -642,8 +646,8 @@ func TestNewWindowAggregateArrayCursorMonths_Integer(t *testing.T) {
 			window:             window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeMin,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeMin},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockIntegerArrayCursor{})
@@ -667,8 +671,8 @@ func TestNewWindowAggregateArrayCursorMonths_Integer(t *testing.T) {
 			window:             window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeMax,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeMax},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockIntegerArrayCursor{})
@@ -692,8 +696,8 @@ func TestNewWindowAggregateArrayCursorMonths_Integer(t *testing.T) {
 			window:             window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeMean,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeMean},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockIntegerArrayCursor{})
@@ -717,8 +721,9 @@ func TestNewWindowAggregateArrayCursorMonths_Integer(t *testing.T) {
 			window:             window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeMeanCount,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeMean},
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeCount},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockIntegerArrayCursor{})
@@ -746,8 +751,8 @@ func TestNewWindowAggregateArrayCursor_Integer(t *testing.T) {
 			window:             window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeCount,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeCount},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockIntegerArrayCursor{})
@@ -771,8 +776,8 @@ func TestNewWindowAggregateArrayCursor_Integer(t *testing.T) {
 			window:             window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeSum,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeSum},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockIntegerArrayCursor{})
@@ -796,8 +801,8 @@ func TestNewWindowAggregateArrayCursor_Integer(t *testing.T) {
 			window:             window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeMin,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeMin},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockIntegerArrayCursor{})
@@ -821,8 +826,8 @@ func TestNewWindowAggregateArrayCursor_Integer(t *testing.T) {
 			window:             window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeMax,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeMax},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockIntegerArrayCursor{})
@@ -846,8 +851,8 @@ func TestNewWindowAggregateArrayCursor_Integer(t *testing.T) {
 			window:             window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeMean,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeMean},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockIntegerArrayCursor{})
@@ -871,8 +876,9 @@ func TestNewWindowAggregateArrayCursor_Integer(t *testing.T) {
 			window:             window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeMeanCount,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeMean},
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeCount},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockIntegerArrayCursor{})
@@ -905,8 +911,8 @@ func TestNewAggregateArrayCursor_Unsigned(t *testing.T) {
 			tmp:                 &cursors.UnsignedArray{},
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeCount,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeCount},
 		}
 
 		got, _ := newAggregateArrayCursor(context.Background(), agg, &MockUnsignedArrayCursor{})
@@ -923,8 +929,8 @@ func TestNewAggregateArrayCursor_Unsigned(t *testing.T) {
 			tmp:                 &cursors.UnsignedArray{},
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeSum,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeSum},
 		}
 
 		got, _ := newAggregateArrayCursor(context.Background(), agg, &MockUnsignedArrayCursor{})
@@ -941,8 +947,8 @@ func TestNewAggregateArrayCursor_Unsigned(t *testing.T) {
 			tmp:                 &cursors.UnsignedArray{},
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeMin,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeMin},
 		}
 
 		got, _ := newAggregateArrayCursor(context.Background(), agg, &MockUnsignedArrayCursor{})
@@ -959,8 +965,8 @@ func TestNewAggregateArrayCursor_Unsigned(t *testing.T) {
 			tmp:                 &cursors.UnsignedArray{},
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeMax,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeMax},
 		}
 
 		got, _ := newAggregateArrayCursor(context.Background(), agg, &MockUnsignedArrayCursor{})
@@ -977,8 +983,8 @@ func TestNewAggregateArrayCursor_Unsigned(t *testing.T) {
 			tmp:                 &cursors.UnsignedArray{},
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeMean,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeMean},
 		}
 
 		got, _ := newAggregateArrayCursor(context.Background(), agg, &MockUnsignedArrayCursor{})
@@ -995,8 +1001,9 @@ func TestNewAggregateArrayCursor_Unsigned(t *testing.T) {
 			tmp:                 &cursors.UnsignedArray{},
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeMeanCount,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeMean},
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeCount},
 		}
 
 		got, _ := newAggregateArrayCursor(context.Background(), agg, &MockUnsignedArrayCursor{})
@@ -1024,8 +1031,8 @@ func TestNewWindowAggregateArrayCursorMonths_Unsigned(t *testing.T) {
 			window:              window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeCount,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeCount},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockUnsignedArrayCursor{})
@@ -1049,8 +1056,8 @@ func TestNewWindowAggregateArrayCursorMonths_Unsigned(t *testing.T) {
 			window:              window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeSum,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeSum},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockUnsignedArrayCursor{})
@@ -1074,8 +1081,8 @@ func TestNewWindowAggregateArrayCursorMonths_Unsigned(t *testing.T) {
 			window:              window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeMin,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeMin},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockUnsignedArrayCursor{})
@@ -1099,8 +1106,8 @@ func TestNewWindowAggregateArrayCursorMonths_Unsigned(t *testing.T) {
 			window:              window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeMax,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeMax},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockUnsignedArrayCursor{})
@@ -1124,8 +1131,8 @@ func TestNewWindowAggregateArrayCursorMonths_Unsigned(t *testing.T) {
 			window:              window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeMean,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeMean},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockUnsignedArrayCursor{})
@@ -1149,8 +1156,9 @@ func TestNewWindowAggregateArrayCursorMonths_Unsigned(t *testing.T) {
 			window:              window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeMeanCount,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeMean},
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeCount},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockUnsignedArrayCursor{})
@@ -1178,8 +1186,8 @@ func TestNewWindowAggregateArrayCursor_Unsigned(t *testing.T) {
 			window:              window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeCount,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeCount},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockUnsignedArrayCursor{})
@@ -1203,8 +1211,8 @@ func TestNewWindowAggregateArrayCursor_Unsigned(t *testing.T) {
 			window:              window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeSum,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeSum},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockUnsignedArrayCursor{})
@@ -1228,8 +1236,8 @@ func TestNewWindowAggregateArrayCursor_Unsigned(t *testing.T) {
 			window:              window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeMin,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeMin},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockUnsignedArrayCursor{})
@@ -1253,8 +1261,8 @@ func TestNewWindowAggregateArrayCursor_Unsigned(t *testing.T) {
 			window:              window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeMax,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeMax},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockUnsignedArrayCursor{})
@@ -1278,8 +1286,8 @@ func TestNewWindowAggregateArrayCursor_Unsigned(t *testing.T) {
 			window:              window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeMean,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeMean},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockUnsignedArrayCursor{})
@@ -1303,8 +1311,9 @@ func TestNewWindowAggregateArrayCursor_Unsigned(t *testing.T) {
 			window:              window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeMeanCount,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeMean},
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeCount},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockUnsignedArrayCursor{})
@@ -1337,8 +1346,8 @@ func TestNewAggregateArrayCursor_String(t *testing.T) {
 			tmp:               &cursors.StringArray{},
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeCount,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeCount},
 		}
 
 		got, _ := newAggregateArrayCursor(context.Background(), agg, &MockStringArrayCursor{})
@@ -1366,8 +1375,8 @@ func TestNewWindowAggregateArrayCursorMonths_String(t *testing.T) {
 			window:            window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeCount,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeCount},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockStringArrayCursor{})
@@ -1395,8 +1404,8 @@ func TestNewWindowAggregateArrayCursor_String(t *testing.T) {
 			window:            window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeCount,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeCount},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockStringArrayCursor{})
@@ -1429,8 +1438,8 @@ func TestNewAggregateArrayCursor_Boolean(t *testing.T) {
 			tmp:                &cursors.BooleanArray{},
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeCount,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeCount},
 		}
 
 		got, _ := newAggregateArrayCursor(context.Background(), agg, &MockBooleanArrayCursor{})
@@ -1458,8 +1467,8 @@ func TestNewWindowAggregateArrayCursorMonths_Boolean(t *testing.T) {
 			window:             window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeCount,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeCount},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockBooleanArrayCursor{})
@@ -1487,8 +1496,8 @@ func TestNewWindowAggregateArrayCursor_Boolean(t *testing.T) {
 			window:             window,
 		}
 
-		agg := &datatypes.Aggregate{
-			Type: datatypes.AggregateTypeCount,
+		agg := []*datatypes.Aggregate{
+			&datatypes.Aggregate{Type: datatypes.AggregateTypeCount},
 		}
 
 		got, _ := NewWindowAggregateArrayCursor(context.Background(), agg, window, &MockBooleanArrayCursor{})
